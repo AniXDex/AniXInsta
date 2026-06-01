@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function isShortcodePresent(url: string) {
-  const regex = /\/(p|reel)\/([a-zA-Z0-9_-]+)\/?/;
+  const regex = /\/(p|reel|reels)\/([a-zA-Z0-9_-]+)\/?/;
   const match = url.match(regex);
 
   if (match && match[2]) {
@@ -17,7 +17,7 @@ export function isShortcodePresent(url: string) {
 }
 
 export function getPostShortcode(url: string): string | null {
-  const regex = /\/(p|reel)\/([a-zA-Z0-9_-]+)\/?/;
+  const regex = /\/(p|reel|reels)\/([a-zA-Z0-9_-]+)\/?/;
   const match = url.match(regex);
 
   if (match && match[2]) {
