@@ -36,13 +36,6 @@ export async function GET(_: NextRequest, context: RouteContext) {
         );
       }
 
-      if (!data.xdt_shortcode_media.is_video) {
-        return NextResponse.json(
-          { error: "notVideo", message: "post is not a video" },
-          { status: 400 }
-        );
-      }
-
       return NextResponse.json({ data }, { status: 200 });
     }
 

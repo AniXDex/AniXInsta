@@ -38,18 +38,18 @@ export function Hero() {
         <div className="flex flex-col items-center space-y-8 text-center">
           <div className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-border/35 bg-white/45 px-4 py-1.5 text-xs font-medium tracking-widest uppercase text-muted-foreground shadow-sm backdrop-blur-2xl dark:bg-white/[0.04]">
             <span className="inline-block h-1.5 w-1.5 animate-glow-pulse rounded-full gold-bg" />
-            Instagram Video Downloader
+            Instagram Media Downloader
           </div>
 
           <div className="max-w-4xl animate-slide-up space-y-5" style={{ animationDelay: "0.05s" }}>
             <h1 className="text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1]">
               Save Any Instagram{" "}
               <span className="bg-gradient-to-r from-gold via-[oklch(0.72_0.22_58)] to-gold/60 bg-clip-text text-transparent">
-                Video Instantly
+                Media Instantly
               </span>
             </h1>
             <p className="text-muted-foreground mx-auto max-w-2xl text-base leading-relaxed md:text-lg">
-              Paste a link, get your video. No account needed, no watermarks, no limits.
+              Paste a link, get your content. No account needed, no watermarks, no limits.
             </p>
           </div>
 

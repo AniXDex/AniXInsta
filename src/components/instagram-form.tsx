@@ -19,7 +19,6 @@ const CACHE_TIME = 5 * 60 * 1000;
 
 const ERRORS: Record<string, string> = {
   notFound: "Post not found.",
-  notVideo: "This post does not contain a video.",
   tooManyRequests: "Too many requests, try again later.",
   serverError: "Server unavailable, try again later.",
 };
@@ -30,21 +29,21 @@ const schema = z.object({
     .refine((v) => isShortcodePresent(v), "Enter a valid Instagram URL."),
 });
 
-function download(videoUrl: string) {
+function download(url: string, ext: string) {
   const id = Date.now().toString().slice(-8);
   const proxy = new URL("/api/download-proxy", location.origin);
-  proxy.searchParams.set("url", videoUrl);
-  proxy.searchParams.set("filename", `anixinsta-${id}.mp4`);
+  proxy.searchParams.set("url", url);
+  proxy.searchParams.set("filename", `anixinsta-${id}.${ext}`);
   const a = document.createElement("a");
   a.href = proxy.toString();
-  a.download = `anixinsta-${id}.mp4`;
+  a.download = `anixinsta-${id}.${ext}`;
   a.target = "_blank";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
 }
 
-type Cached = { url?: string; err?: string; at: number };
+type Cached = { url?: string; ext?: string; err?: string; at: number };
 
 export function InstagramForm(props: { className?: string }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -61,7 +60,7 @@ export function InstagramForm(props: { className?: string }) {
 
   function clear() { form.setValue("url", ""); form.clearErrors("url"); inputRef.current?.focus(); }
 
-  function put(key: string, url?: string, err?: string) { cache.current.set(key, { url, err, at: Date.now() + CACHE_TIME }); }
+  function put(key: string, url?: string, ext?: string, err?: string) { cache.current.set(key, { url, ext, err, at: Date.now() + CACHE_TIME }); }
   function get(key: string) {
     const c = cache.current.get(key);
     if (!c || c.at < Date.now()) { if (c) cache.current.delete(key); return null; }
@@ -77,20 +76,27 @@ export function InstagramForm(props: { className?: string }) {
 
     const cached = get(code);
     if (cached?.err) { form.setError("url", { message: cached.err }); setState("idle"); return; }
-    if (cached?.url) { download(cached.url); setState("done"); setTimeout(() => setState("idle"), 1800); return; }
+    if (cached?.url && cached?.ext) { download(cached.url, cached.ext); setState("done"); setTimeout(() => setState("idle"), 1800); return; }
 
     try {
       const { data, status } = await fetchPost({ shortcode: code });
       if (status === HTTP_CODE_ENUM.OK) {
-        const dl = data.data.xdt_shortcode_media.video_url;
-        if (!dl) throw new Error("No video URL");
-        download(dl); put(code, dl); setState("done");
+        const media = data.data.xdt_shortcode_media;
+        if (media.is_video) {
+          if (!media.video_url) throw new Error("No video URL");
+          download(media.video_url, "mp4");
+          put(code, media.video_url, "mp4");
+        } else {
+          download(media.display_url, "jpg");
+          put(code, media.display_url, "jpg");
+        }
+        setState("done");
         toast.success("Download started!", { duration: 2000, position: "top-center" });
         setTimeout(() => setState("idle"), 1800);
       } else {
         const msg = ERRORS[(data as any)?.error] ?? "Something went wrong.";
         form.setError("url", { message: msg }); setState("idle");
-        if (status === HTTP_CODE_ENUM.BAD_REQUEST || status === HTTP_CODE_ENUM.NOT_FOUND) put(code, undefined, msg);
+        if (status === HTTP_CODE_ENUM.BAD_REQUEST || status === HTTP_CODE_ENUM.NOT_FOUND) put(code, undefined, undefined, msg);
       }
     } catch {
       setState("idle");
@@ -139,7 +145,7 @@ export function InstagramForm(props: { className?: string }) {
         </form>
       </Form>
       {error && <p className="mt-1.5 animate-fade-in text-center text-xs text-destructive">{error}</p>}
-      <p className="mt-1.5 text-center text-xs text-muted-foreground">Works with Instagram posts &amp; reels</p>
+      <p className="mt-1.5 text-center text-xs text-muted-foreground">Works with Instagram posts, reels &amp; images</p>
     </div>
   );
 }
