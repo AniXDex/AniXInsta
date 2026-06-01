@@ -1,0 +1,25 @@
+{
+  "name": "AniXInsta",
+  "short_name": "AniXInsta",
+  "description": "Save any Instagram video in full quality. No account, no limits, no cost.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4285f4",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "orientation": "portrait",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["Internet"],
+  "keywords": [
+    "Instagram video downloader",
+    "download Instagram videos",
+    "Instagram video saver",
+    "Instagram reels downloader",
+    "save Instagram videos free"
+  ],
+  "apple-mobile-web-app-title": "AniXInsta",
+  "apple-mobile-web-app-status-bar-style": "black-translucent"
+}
