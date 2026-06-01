@@ -1,9 +1,8 @@
 <div align="center">
   <h1>AniXInsta</h1>
-  <p><strong>Instagram video downloader — no account, no limits, no cost.</strong></p>
+  <p><strong>Instagram media downloader — no account, no limits, no cost.</strong></p>
   <p>
     <a href="#features">Features</a> •
-    <a href="#demo">Demo</a> •
     <a href="#getting-started">Getting Started</a> •
     <a href="#build">Build</a> •
     <a href="#tech-stack">Tech Stack</a>
@@ -17,7 +16,7 @@
   <br />
 </div>
 
-Paste any Instagram post or reel URL and download the video in its original quality — no sign-up, no watermarks, no rate limits.
+Paste any Instagram post, reel, or story URL and download the media in its original quality — no sign-up, no watermarks, no rate limits.
 
 > ⚠️ **Educational purpose only.** Only download content you have permission to access. Respect creators&rsquo; rights and Instagram&rsquo;s Terms of Service.
 
@@ -25,7 +24,7 @@ Paste any Instagram post or reel URL and download the video in its original qual
 
 ## Features
 
-- Download Instagram posts &amp; reels in original HD quality
+- Download Instagram posts, reels, stories &amp; images in original quality
 - No login or account required
 - Dark / light theme with system auto-detection
 - Fully responsive (mobile, tablet, desktop)

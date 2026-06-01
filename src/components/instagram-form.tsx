@@ -145,7 +145,7 @@ export function InstagramForm(props: { className?: string }) {
         </form>
       </Form>
       {error && <p className="mt-1.5 animate-fade-in text-center text-xs text-destructive">{error}</p>}
-      <p className="mt-1.5 text-center text-xs text-muted-foreground">Works with Instagram posts, reels &amp; images</p>
+      <p className="mt-1.5 text-center text-xs text-muted-foreground">Works with Instagram posts, reels, stories &amp; images</p>
     </div>
   );
 }

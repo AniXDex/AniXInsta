@@ -6,24 +6,25 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function isShortcodePresent(url: string) {
-  const regex = /\/(p|reel|reels)\/([a-zA-Z0-9_-]+)\/?/;
+  const regex = /\/(p|reel|reels|stories)\/([a-zA-Z0-9_.-]+)(?:\/(\d+))?\/?/;
   const match = url.match(regex);
 
-  if (match && match[2]) {
-    return true;
+  if (match) {
+    if (match[1] === "stories") return !!match[3];
+    return !!match[2];
   }
 
   return false;
 }
 
 export function getPostShortcode(url: string): string | null {
-  const regex = /\/(p|reel|reels)\/([a-zA-Z0-9_-]+)\/?/;
+  const regex = /\/(p|reel|reels|stories)\/([a-zA-Z0-9_.-]+)(?:\/(\d+))?\/?/;
   const match = url.match(regex);
 
-  if (match && match[2]) {
-    const shortcode = match[2];
-    return shortcode;
-  } else {
-    return null;
+  if (match) {
+    if (match[1] === "stories") return match[3] || null;
+    return match[2] || null;
   }
+
+  return null;
 }
