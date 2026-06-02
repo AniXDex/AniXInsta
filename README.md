@@ -16,7 +16,7 @@
   <br />
 </div>
 
-Paste any Instagram post, reel, or story URL and download the media in its original quality — no sign-up, no watermarks, no rate limits.
+Paste any Instagram post or reel URL and download the media in its original quality — no sign-up, no watermarks, no rate limits.
 
 > ⚠️ **Educational purpose only.** Only download content you have permission to access. Respect creators&rsquo; rights and Instagram&rsquo;s Terms of Service.
 
@@ -24,7 +24,7 @@ Paste any Instagram post, reel, or story URL and download the media in its origi
 
 ## Features
 
-- Download Instagram posts, reels, stories &amp; images in original quality
+- Download Instagram posts, reels &amp; images in original quality
 - No login or account required
 - Dark / light theme with system auto-detection
 - Fully responsive (mobile, tablet, desktop)

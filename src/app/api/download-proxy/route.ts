@@ -23,8 +23,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Fetch the video from the external URL
-    const videoResponse = await fetch(fileUrl);
+    // Fetch the video from the external URL with proper headers
+    const videoResponse = await fetch(fileUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Linux; Android 11; SAMSUNG SM-G973U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/14.2 Chrome/87.0.4280.141 Mobile Safari/537.36",
+        Accept: "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        Referer: "https://www.instagram.com/",
+        Origin: "https://www.instagram.com",
+        DNT: "1",
+        Connection: "keep-alive",
+        "Sec-Fetch-Dest": "video",
+        "Sec-Fetch-Mode": "no-cors",
+        "Sec-Fetch-Site": "cross-site",
+      },
+    });
 
     if (!videoResponse.ok) {
       throw new Error(`Failed to fetch video: ${videoResponse.statusText}`);
