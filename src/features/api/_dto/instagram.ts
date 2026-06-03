@@ -64,6 +64,26 @@ export type XdtShortcodeMediaDto = {
   viewer_in_photo_of_you: boolean;
   viewer_can_reshare: boolean;
   is_ad: boolean;
+  edge_sidecar_to_children?: {
+    edges: Array<{
+      node: {
+        __typename: string;
+        id: string;
+        shortcode: string;
+        is_video: boolean;
+        video_url: string | null;
+        display_url: string;
+        thumbnail_src: string;
+        dimensions: { height: number; width: number };
+        video_duration: number;
+        accessibility_caption: string | null;
+        has_audio: boolean;
+        video_view_count: number;
+        video_play_count: number;
+        media_overlay_info: null;
+      };
+    }>;
+  };
   edge_web_media_to_related_media: EdgeMediaToCaptionClassDto;
   coauthor_producers: any[];
   pinned_for_users: any[];

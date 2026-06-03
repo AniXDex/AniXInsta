@@ -36,17 +36,62 @@ export async function GET(request: NextRequest, context: RouteContext) {
         );
       }
 
+      // Determine if the media is a video (check carousel first item if applicable)
+      const isVideo =
+        media.media_type === 2 ||
+        (media.media_type === 8 &&
+          media.carousel_media?.[0]?.media_type === 2);
+
+      // For carousels, use the first carousel item's display/video URL
+      const displayUrl =
+        media.media_type === 8
+          ? media.carousel_media?.[0]?.image_versions2?.candidates?.[0]?.url || ""
+          : media.image_versions2?.candidates?.[0]?.url || "";
+
+      const videoUrl =
+        media.media_type === 8
+          ? media.carousel_media?.[0]?.video_versions?.[0]?.url || null
+          : media.video_versions?.[0]?.url || null;
+
+      // Map carousel children
+      const carouselChildren =
+        media.carousel_media?.map((child: any) => ({
+          node: {
+            __typename: child.media_type === 2 ? "XDTGraphVideo" : "XDTGraphImage",
+            id: String(child.pk || ""),
+            shortcode: child.code || "",
+            is_video: child.media_type === 2,
+            video_url: child.video_versions?.[0]?.url || null,
+            display_url: child.image_versions2?.candidates?.[0]?.url || "",
+            thumbnail_src: child.image_versions2?.candidates?.[0]?.url || "",
+            dimensions: {
+              height: child.original_height || 0,
+              width: child.original_width || 0,
+            },
+            video_duration: child.video_duration || 0,
+            accessibility_caption: child.accessibility_caption || null,
+            has_audio: child.has_audio || false,
+            video_view_count: child.view_count || 0,
+            video_play_count: child.view_count || 0,
+            media_overlay_info: null,
+          },
+        })) || [];
+
       // Map to format expected by client
       const mapped = {
         data: {
           xdt_shortcode_media: {
-            __typename: media.media_type === 2 ? "XDTGraphVideo" : "XDTGraphImage",
+            __typename: media.media_type === 2
+              ? "XDTGraphVideo"
+              : media.media_type === 8
+                ? "XDTGraphSidecar"
+                : "XDTGraphImage",
             id: String(media.pk || ""),
             shortcode: media.code || shortcode,
-            is_video: media.media_type === 2 || media.media_type === 8,
-            video_url: media.video_versions?.[0]?.url || null,
-            display_url: media.image_versions2?.candidates?.[0]?.url || "",
-            thumbnail_src: media.image_versions2?.candidates?.[0]?.url || "",
+            is_video: isVideo,
+            video_url: videoUrl,
+            display_url: displayUrl,
+            thumbnail_src: displayUrl,
             dimensions: {
               height: media.original_height || 0,
               width: media.original_width || 0,
@@ -108,6 +153,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
             viewer_in_photo_of_you: false,
             viewer_can_reshare: !!media.can_reshare,
             is_ad: false,
+            edge_sidecar_to_children: { edges: carouselChildren },
             edge_web_media_to_related_media: { edges: [] },
             coauthor_producers: media.coauthor_producers || [],
             pinned_for_users: [],
